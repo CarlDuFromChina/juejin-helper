@@ -1,5 +1,6 @@
 {
   "account": {
     "cookie": ""
-  }
+  },
+  "auto_checkin": true
 }
