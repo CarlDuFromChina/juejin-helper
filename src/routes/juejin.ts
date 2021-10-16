@@ -16,7 +16,8 @@ router.get('/checkin', function (req, res, next) {
  * 抽奖
  */
 router.get('/draw', function (req, res, next) {
-  juejin.Draw().then((resp) => {
+  var count = req.param('count') ?? 1;
+  juejin.Draw(count).then((resp) => {
     res.send(resp);
   });
 });

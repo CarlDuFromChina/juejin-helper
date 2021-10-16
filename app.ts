@@ -28,6 +28,11 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 app.use('/juejin', juejinRouter);
 
+// replace this with the log4js connect-logger
+// app.use(logger('dev'));
+var log4js = require('log4js');
+app.use(log4js.connectLogger(log4js.getLogger('http'), { level: 'auto' }));
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
