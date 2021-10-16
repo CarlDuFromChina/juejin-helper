@@ -8,7 +8,11 @@ import job from '../job';
  */
 router.get('/checkin', function (req, res, next) {
   juejin.CheckIn().then((resp) => {
-    res.send(resp);
+    if (resp.err_no === 200) {
+      res.send(`签到成功，获得${resp.data.incr_point}矿石，您现在已有${resp.data.sum_point}矿石了`);
+    } else {
+      res.send(resp.err_msg);
+    }
   });
 });
 
@@ -27,7 +31,11 @@ router.get('/draw', function (req, res, next) {
  */
 router.get('/GetCurPoint', function (req, res, next) {
   juejin.GetCurPoint().then((resp) => {
-    res.send(resp);
+    if (resp.err_no === 0) {
+      res.send(`您的矿石剩余：${resp.data}`);
+    } else {
+      res.send(resp.err_msg);
+    }
   });
 });
 

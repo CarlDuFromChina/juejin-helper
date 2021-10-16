@@ -1,9 +1,9 @@
 import { juejin as http } from '../axios';
 
-interface JuejinResponse {
+interface JuejinResponse<T> {
   err_no: number;
   err_msg: string;
-  data: any;
+  data: T;
 }
 
 interface CheckInData {
@@ -20,14 +20,10 @@ interface DrawData {
   lottery_type: number;
 }
 
-export function CheckIn() {
+export function CheckIn(): Promise<JuejinResponse<CheckInData>> {
   return http.post('growth_api/v1/check_in').then((resp) => {
-    var result = resp.data as JuejinResponse;
-    var data = result.data as CheckInData;
-    if (result.err_no === 200) {
-      return `签到成功，获得${data.incr_point}矿石，您现在已有${data.sum_point}矿石了`;
-    }
-    return result.err_msg;
+    var result = resp.data as JuejinResponse<CheckInData>;
+    return result;
   });
 }
 
@@ -35,10 +31,9 @@ export function Draw(count: number) {
   const promises = [];
   for (let i = 0; i < count; i++) {
     var promise = http.post('growth_api/v1/lottery/draw').then((resp) => {
-      var result = resp.data as JuejinResponse;
-      var data = result.data as DrawData;
+      var result = resp.data as JuejinResponse<DrawData>;
       if (result.err_no === 0) {
-        return `恭喜获得${data.lottery_name}`;
+        return `恭喜获得${result.data.lottery_name}`;
       }
       return result.err_msg;
     });
@@ -47,13 +42,9 @@ export function Draw(count: number) {
   return Promise.all(promises).then((resp) => resp.join('<br/>'));
 }
 
-export function GetCurPoint() {
+export function GetCurPoint(): Promise<JuejinResponse<number>> {
   return http.get('growth_api/v1/get_cur_point').then((resp) => {
-    var result = resp.data as JuejinResponse;
-    if (result.err_no === 0) {
-      return `您的矿石剩余：${result.data}`;
-    }
-    return result.err_msg;
+    return resp.data as JuejinResponse<number>;
   });
 }
 
