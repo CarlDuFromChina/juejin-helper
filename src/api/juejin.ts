@@ -27,19 +27,31 @@ export function CheckIn(): Promise<JuejinResponse<CheckInData>> {
   });
 }
 
-export function Draw(count: number) {
+export function Draw(count: number): Promise<Array<JuejinResponse<DrawData>>> {
   const promises = [];
   for (let i = 0; i < count; i++) {
     var promise = http.post('growth_api/v1/lottery/draw').then((resp) => {
       var result = resp.data as JuejinResponse<DrawData>;
-      if (result.err_no === 0) {
-        return `恭喜获得${result.data.lottery_name}`;
-      }
-      return result.err_msg;
+      return result;
     });
     promises.push(promise);
   }
-  return Promise.all(promises).then((resp) => resp.join('<br/>'));
+  return Promise.all(promises);
+}
+
+export async function Allin() {
+  var curPoint = (await GetCurPoint()).data;
+  var count = parseInt((curPoint / 200).toString());
+  var result = await Draw(count);
+  var prize = {};
+  result.forEach(item => {
+    if (item.data.lottery_name in prize) {
+      prize[item.data.lottery_name] += 1;
+    } else {
+      prize[item.data.lottery_name] = 1;
+    }
+  });
+  return prize;
 }
 
 export function GetCurPoint(): Promise<JuejinResponse<number>> {

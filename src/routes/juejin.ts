@@ -22,9 +22,37 @@ router.get('/checkin', function (req, res, next) {
 router.get('/draw', function (req, res, next) {
   var count = req.param('count') ?? 1;
   juejin.Draw(count).then((resp) => {
-    res.send(resp);
+    var result = '';
+    resp.forEach(item => {
+      if (item.err_no === 0) {
+        result += `恭喜获得${item.data.lottery_name}<br/>`;
+      } else {
+        result += item.err_msg;
+      }
+    });
+    res.send(result);
   });
 });
+
+/**
+ * 抽奖allin
+ */
+router.get('/allin', function (req, res, next) {
+  juejin.Allin().then(resp => {
+    if (Object.keys(resp).length === 0) {
+      res.send('你没有矿石了');
+    } else {
+      var result = '共计<br/>';
+      for (const key in resp) {
+        if (Object.prototype.hasOwnProperty.call(resp, key)) {
+          const element = resp[key];
+          result += `${key}：${element}<br/>`;
+        }
+      }
+      res.send(result);
+    }
+  });
+})
 
 /**
  * 获取当前剩余矿石数
