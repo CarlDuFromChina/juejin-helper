@@ -1,6 +1,7 @@
 {
-  "account": {
-    "cookie": ""
+  "cookie": {
+    "juejin": "",
+    "jd": ""
   },
   "auto_checkin": true
 }

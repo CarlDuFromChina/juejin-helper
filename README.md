@@ -8,8 +8,6 @@
 | 抽奖（连抽）     | get      | /juejin/draw        | http://localhost:3000/juejin/draw?count=10 | count：抽奖次数 |
 | 抽奖（allin）    | get      | /juejin/allin       | http://localhost:3000/juejin/allin         |                 |
 | 获取当前剩余矿石 | get      | /juejin/GetCurPoint | http://localhost:3000/juejin/checkin       |                 |
-| 自动签到开启     | get      | /juejin/job/start   | http://localhost:3000/juejin/job/start     |                 |
-| 自动签到关闭     | get      | /juejin/job/stop    | http://localhost:3000/juejin/job/stop      |                 |
 
 ## 部署
 

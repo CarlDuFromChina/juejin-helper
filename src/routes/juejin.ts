@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 import * as juejin from '../api/juejin';
-import job from '../job';
 
 /**
  * 签到
@@ -65,22 +64,6 @@ router.get('/GetCurPoint', function (req, res, next) {
       res.send(resp.err_msg);
     }
   });
-});
-
-/**
- * 自动签到开启
- */
-router.get('/job/start', function (req, res, next) {
-  job.start();
-  res.send('job开启');
-});
-
-/**
- * 自动签到停止
- */
-router.get('/job/stop', function (req, res, next) {
-  job.cancel();
-  res.send('job停止');
 });
 
 module.exports = router;
