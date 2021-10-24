@@ -8,13 +8,11 @@ var config = require('../config.json');
 var isAutoCheckIn = config.auto_checkin;
 
 function start() {
-  const rule = new schedule.RecurrenceRule();
-  rule.hour = 1;
-  schedule.scheduleJob(rule, () => {
+  schedule.scheduleJob('0 0 1 * * ?', () => {
     juejin.CheckIn().then((resp) => {
       logger.debug(resp);
     });
-    jd.checkIn().then(resp => {
+    jd.checkIn().then((resp) => {
       logger.debug(resp);
     });
   });
